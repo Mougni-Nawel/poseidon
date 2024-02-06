@@ -21,14 +21,15 @@ public class RatingService {
     }
 
     public Rating save(Rating rating){
+        System.out.println("Service : "+ratingRepository.save(rating));
 
-        if(rating.getId() != 0){
+        //if(rating.getId() != 0){
 
             return ratingRepository.save(rating);
 
-        }
+        //}
 
-        return null;
+        //return null;
 
     }
 

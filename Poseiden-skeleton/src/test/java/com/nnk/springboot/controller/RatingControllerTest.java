@@ -82,7 +82,7 @@ public class RatingControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(view().name("rating/list"))
-                .andExpect(model().attribute("ratingList", ratingList));
+                .andExpect(model().attribute("ratings", ratingList));
 
     }
 

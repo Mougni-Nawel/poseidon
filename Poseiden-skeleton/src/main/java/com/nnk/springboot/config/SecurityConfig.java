@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -19,11 +20,12 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.authorizeHttpRequests((req) -> req.requestMatchers("/", "/app/login", "/home").permitAll()
+        http.authorizeHttpRequests((req) -> req.requestMatchers("/", "/login", "/home").permitAll()
                         .requestMatchers("/bidList","/curvePoint","/rating","/ruleName","/trade").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/home", "/app/login").permitAll()
+                        .requestMatchers("/home", "/error").permitAll()
                         .requestMatchers("/admin/home").hasAuthority("ADMIN")
-                        .requestMatchers("/user/list").hasAuthority("ADMIN")
+                        .requestMatchers("/user/**").hasAuthority("ADMIN")
+                        .requestMatchers("/error").permitAll()
                         .anyRequest().authenticated())
 //                .formLogin(form -> {
 //                            try {
@@ -40,7 +42,12 @@ public class SecurityConfig {
 //                                throw new RuntimeException(e);
 //                            }
 //                        })
-                .formLogin(Customizer.withDefaults())
+                //.formLogin(Customizer.withDefaults())
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/bidList/list")
+                        .failureUrl("/login?error")
+                        .failureHandler(new SimpleUrlAuthenticationFailureHandler("/login?error")))
 
 
 
@@ -48,12 +55,15 @@ public class SecurityConfig {
                 .logout((logout) ->
                         logout.logoutUrl("/app-logout")
                                 .deleteCookies("remove")
-                                .logoutSuccessUrl("/app/login")
+                                .logoutSuccessUrl("/login")
                                 .invalidateHttpSession(true)
                                 .clearAuthentication(true)
                                 .permitAll())
 
-                .csrf(AbstractHttpConfigurer::disable);
+
+                .csrf(AbstractHttpConfigurer::disable)
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .accessDeniedPage("/403"));
         return http.build();
 
     }

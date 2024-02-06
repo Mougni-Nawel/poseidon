@@ -68,18 +68,15 @@ public class RuleNameControllerTest {
     @WithMockUser
     public void getRuleNameList() throws Exception {
 
-
-        // Mock the service method to return the mock data
         when(ruleNameService.findAll()).thenReturn(ruleNameList);
 
-        // Perform the MVC request and assert the results
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/ruleName/list").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(view().name("ruleName/list"))
-                .andExpect(model().attribute("ruleNameList", ruleNameList));
+                .andExpect(model().attribute("ruleNames", ruleNameList));
 
     }
 
@@ -88,7 +85,7 @@ public class RuleNameControllerTest {
     public void validateRuleName() throws Exception {
 
         RuleName ruleName = new RuleName();
-        //mockBidList.add(bidList);
+
         when(ruleNameService.save(any(RuleName.class))).thenReturn(ruleName);
 
         mockMvc.perform(post("/ruleName/validate").with(csrf())
@@ -107,7 +104,7 @@ public class RuleNameControllerTest {
         ruleNameExisted.setName("Test");
 
         RuleName updatedRuleName = new RuleName();
-        updatedRuleName.setName("New Test"); // Set any updated fields
+        updatedRuleName.setName("New Test");
 
         when(ruleNameService.save(any(RuleName.class))).thenReturn(updatedRuleName);
 
@@ -125,11 +122,9 @@ public class RuleNameControllerTest {
     void testDeleteRuleName() throws Exception {
         doNothing().when(ruleNameService).delete(anyInt());
 
-        // Act & Assert
         mockMvc.perform(get("/ruleName/delete/1"))
                 .andExpect(redirectedUrl("/ruleName/list"));
 
-        // Verify that the delete method is called with the correct id
         verify(ruleNameService, times(1)).delete(anyInt());
     }
 

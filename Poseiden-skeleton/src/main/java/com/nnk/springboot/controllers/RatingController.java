@@ -28,7 +28,7 @@ public class RatingController {
     {
         List<Rating> ratingList = ratingService.findAll();
         model.addAttribute("userDetails", userDetails);
-        model.addAttribute("ratingList", ratingList);
+        model.addAttribute("ratings", ratingList);
         return "rating/list";
     }
 
@@ -41,6 +41,7 @@ public class RatingController {
     @PostMapping("/rating/validate")
     public String validate(@Valid Rating rating, BindingResult result, Model model) {
 
+        System.out.println("CONTROLLER : ");
         if(result.hasErrors()){
             return "rating/add";
         }

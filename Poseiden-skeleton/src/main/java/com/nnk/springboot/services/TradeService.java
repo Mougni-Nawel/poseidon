@@ -22,13 +22,13 @@ public class TradeService {
 
     public Trade save(Trade trade){
 
-        if(trade.getTradeId() != 0){
+        //if(trade.getTradeId() != 0){
 
             return tradeRepository.save(trade);
 
-        }
+        //}
 
-        return null;
+        //return null;
 
     }
 

@@ -7,9 +7,11 @@ import com.nnk.springboot.controllers.UserController;
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.domain.Trade;
 import com.nnk.springboot.domain.User;
+import com.nnk.springboot.repositories.UserRepository;
 import com.nnk.springboot.services.BidListService;
 import com.nnk.springboot.services.ICurvePointService;
 import com.nnk.springboot.services.UserService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,20 +21,29 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -50,7 +61,14 @@ public class UserControllerTest {
     @MockBean
     private UserService userService;
 
+    @MockBean
+    private UserRepository userRepository;
+
+
+
     private List<User> userList;
+
+    private User userTest;
 
     @Mock
     private Model model;
@@ -64,17 +82,13 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser
+    //@WithMockUser
     public void getUserList() throws Exception {
 
-
-        // Mock the service method to return the mock data
         when(userService.findAll()).thenReturn(userList);
 
-
-        // Perform the MVC request and assert the results
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/user/list").with(csrf())
+                        .get("/user/list").with(SecurityMockMvcRequestPostProcessors.user("username").password("password").authorities(new SimpleGrantedAuthority("ADMIN")))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -83,30 +97,84 @@ public class UserControllerTest {
 
     }
 
+
     @Test
-    public void validateUser_ValidUser_RedirectToList() throws Exception {
-        // Arrange
-        User user = new User();
-        user.setUsername("testUser");
-        user.setPassword("testPassword");
+    public void getAddUser() throws Exception {
 
-        // Mock the behavior of userService.save to capture the argument and return a user
-        when(userService.save(any(User.class))).thenReturn(user);
-
-        // Act and Assert
-        mockMvc.perform(post("/user/validate").with(csrf())
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/user/add").with(SecurityMockMvcRequestPostProcessors.user("username").password("password").authorities(new SimpleGrantedAuthority("ADMIN")))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(user))
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/user/list"));
+                .andExpect(status().isOk())
+                .andExpect(view().name("user/add"));
 
-        // Verify that userService.save was called with the expected user
-        //verify(userService).save(userCaptor.capture());
-        //User capturedUser = userCaptor.getValue();
-        // Add additional assertions on capturedUser if needed
     }
 
+    @Test
+    @WithMockUser(username = "testUser", password = "testPassword", roles = "ADMIN")
+    public void validateUser_ValidUser_RedirectToList() throws Exception {
+
+        when(userService.save(any())).thenReturn(userTest);
+
+        mockMvc.perform(post("/user/validate").with(csrf())
+                        .param("username", "testUser")
+                        .param("password", "testPassword")
+                        .param("fullname", "Test")
+                        .param("role", "USER"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/user/list"));
+    }
+
+
+    @Test
+    @WithMockUser(username = "testUser", password = "testPassword", roles = "ADMIN")
+    void updateTrade() throws Exception {
+        User userExisted = new User();
+        userExisted.setId(10);
+        userExisted.setFullname("Test");
+        userExisted.setRole("USER");
+        userExisted.setPassword("testPassword");
+        userExisted.setUsername("testUsername");
+
+        User updatedUser = new User();
+        updatedUser.setFullname("New Test");
+        updatedUser.setRole("USER");
+        updatedUser.setPassword("testPassword");
+        updatedUser.setUsername("testUsername");
+
+        when(userService.save(any(User.class))).thenReturn(updatedUser);
+
+        mockMvc.perform(post("/user/update/"+userExisted.getId()).with(csrf())
+                        .param("fullname", updatedUser.getFullname())
+                        .param("role", updatedUser.getFullname())
+                        .param("username", updatedUser.getUsername())
+                        .param("password", updatedUser.getPassword())
+
+
+                )
+                .andExpect(redirectedUrl("/user/list"));
+    }
+
+
+    @Test
+    @WithMockUser(username = "testUser", password = "testPassword", roles = "ADMIN")
+    void testDeleteTrade() throws Exception {
+
+        userTest = new User();
+        userTest.setId(1);
+        userTest.setRole("USER");
+        userTest.setFullname("Test");
+        userTest.setUsername("Test");
+        userTest.setPassword("testpassword");
+
+        when(userRepository.findById(userTest.getId())).thenReturn(Optional.ofNullable(userTest));
+        doNothing().when(userRepository).delete(any(User.class));
+
+        mockMvc.perform(get("/user/delete/1"))
+                .andExpect(redirectedUrl("/user/list"));
+
+        verify(userRepository, times(1)).delete(any(User.class));
+    }
 
 
 

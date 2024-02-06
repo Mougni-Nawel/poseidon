@@ -27,14 +27,16 @@ public class CurvePointService implements ICurvePointService{
     @Override
     public CurvePoint save(CurvePoint curvePoint){
 
-        if(curvePoint.getId() != 0){
+
+
+        //if(curvePoint.getId() != 0){
 
             return curvePointRepository.save(curvePoint);
 
-        }
+        //}
 
         // todo: add exception
-        return null;
+        //return null;
 
     }
 
