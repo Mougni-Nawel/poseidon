@@ -1,13 +1,9 @@
 package com.nnk.springboot.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nnk.springboot.controllers.BidListController;
 import com.nnk.springboot.controllers.CurveController;
-import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.domain.CurvePoint;
-import com.nnk.springboot.services.BidListService;
-import com.nnk.springboot.services.ICurvePointService;
-import lombok.extern.slf4j.Slf4j;
+import com.nnk.springboot.services.CurvePointService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -38,8 +34,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @EnableWebMvc
 @SpringBootTest(classes = CurveController.class)
-@Slf4j
-@WithMockUser
 public class CurvePointTest {
 
     @Autowired
@@ -47,13 +41,11 @@ public class CurvePointTest {
 
 
     @MockBean
-    private ICurvePointService curvePointService;
+    private CurvePointService curvePointService;
 
 
     private List<CurvePoint> curvePointList;
 
-    @Mock
-    private Model model;
 
     @BeforeEach
     void setUp(){
@@ -67,11 +59,8 @@ public class CurvePointTest {
     @WithMockUser
     public void getCurvePoint() throws Exception {
 
-
-        // Mock the service method to return the mock data
         when(curvePointService.findAll()).thenReturn(curvePointList);
 
-        // Perform the MVC request and assert the results
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/curvePoint/list").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -106,7 +95,7 @@ public class CurvePointTest {
         curvePointExisted.setTerm(20.0);
 
         CurvePoint updatedCurvePoint = new CurvePoint();
-        updatedCurvePoint.setTerm(50.0); // Set any updated fields
+        updatedCurvePoint.setTerm(50.0);
 
         when(curvePointService.save(any(CurvePoint.class))).thenReturn(updatedCurvePoint);
 
@@ -125,11 +114,9 @@ public class CurvePointTest {
     void testDeleteCurvePoint() throws Exception {
         doNothing().when(curvePointService).delete(anyInt());
 
-        // Act & Assert
         mockMvc.perform(get("/curvePoint/delete/1"))
                 .andExpect(redirectedUrl("/curvePoint/list"));
 
-        // Verify that the delete method is called with the correct id
         verify(curvePointService, times(1)).delete(anyInt());
     }
 

@@ -54,7 +54,7 @@ public class TradeServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "user1", authorities = {"USER"})
+    @WithMockUser
     public void testFindAll(){
 
         List<Trade> tradeList = Arrays.asList(trade1,trade2);
@@ -69,7 +69,7 @@ public class TradeServiceTest {
 
 
     @Test
-    @WithMockUser(username = "user1", authorities = {"USER"})
+    @WithMockUser
     public void testSave() {
 
         when(tradeRepository.save(trade1)).thenReturn(trade1);
@@ -82,7 +82,7 @@ public class TradeServiceTest {
 
 
     @Test
-    @WithMockUser(username = "user1", authorities = {"USER"})
+    @WithMockUser
     public void testFindOne(){
 
 
@@ -99,7 +99,7 @@ public class TradeServiceTest {
 
 
     @Test
-    @WithMockUser(username = "user1", authorities = {"USER"})
+    @WithMockUser
     public void testUpdate() {
 
         Trade existingTrade = new Trade();
@@ -118,7 +118,7 @@ public class TradeServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "user1", authorities = {"USER"})
+    @WithMockUser
     public void testDelete() {
 
 

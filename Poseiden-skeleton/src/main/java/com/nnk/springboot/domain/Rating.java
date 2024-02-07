@@ -28,4 +28,14 @@ public class Rating {
     @Column(name="orderNumber")
     private int orderNumber;
 
+    public Rating(String moodysRating, String sandPRating, String fitchRating, int orderNumber) {
+        this.moodysRating = moodysRating;
+        this.sandPRating = sandPRating;
+        this.orderNumber = orderNumber;
+        this.id = id;
+    }
+
+    public Rating() {
+
+    }
 }

@@ -23,14 +23,7 @@ public class RuleNameService {
 
     public RuleName save(RuleName ruleName){
 
-        //if(ruleName.getId() != 0){
-
-            return ruleNameRepository.save(ruleName);
-
-        //}
-
-        //return null;
-
+        return ruleNameRepository.save(ruleName);
     }
 
     public RuleName findOne(int id) {

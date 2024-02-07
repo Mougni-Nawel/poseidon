@@ -1,17 +1,11 @@
 package com.nnk.springboot.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nnk.springboot.controllers.BidListController;
 import com.nnk.springboot.controllers.RuleNameController;
-import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.domain.RuleName;
-import com.nnk.springboot.services.BidListService;
-import com.nnk.springboot.services.ICurvePointService;
 import com.nnk.springboot.services.RuleNameService;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.ui.Model;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.ArrayList;
@@ -39,8 +32,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @EnableWebMvc
 @SpringBootTest(classes = RuleNameController.class)
-@Slf4j
-@WithMockUser
 public class RuleNameControllerTest {
 
     @Autowired
@@ -53,8 +44,6 @@ public class RuleNameControllerTest {
 
     private List<RuleName> ruleNameList;
 
-    @Mock
-    private Model model;
 
     @BeforeEach
     void setUp(){

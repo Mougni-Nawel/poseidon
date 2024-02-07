@@ -31,7 +31,6 @@ import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.Mockito.*;
 
 
-//@ExtendWith(MockitoExtension.class)
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class BidListServiceTest {
@@ -58,7 +57,7 @@ public class BidListServiceTest {
 
 
     @Test
-    @WithMockUser(username = "user1", authorities = {"USER"})
+    @WithMockUser
     public void testFindAll(){
 
         List<BidList> bidLists = Arrays.asList(bidList1,bidList2);
@@ -72,7 +71,7 @@ public class BidListServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "user1", authorities = {"USER"})
+    @WithMockUser
     public void testSave() {
 
         when(bidListRepository.save(any())).thenReturn(bidList1);
@@ -84,7 +83,7 @@ public class BidListServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "user1", authorities = {"USER"})
+    @WithMockUser
     public void testFindOne(){
 
 
@@ -101,7 +100,7 @@ public class BidListServiceTest {
 
 
     @Test
-    @WithMockUser(username = "user1", authorities = {"USER"})
+    @WithMockUser
     public void testUpdate() {
 
         BidList existingBidList = new BidList("existingAccount", "existingType", 300.0);
@@ -119,7 +118,7 @@ public class BidListServiceTest {
 
 
     @Test
-    @WithMockUser(username = "user1", authorities = {"USER"})
+    @WithMockUser
     public void testDelete() {
 
 

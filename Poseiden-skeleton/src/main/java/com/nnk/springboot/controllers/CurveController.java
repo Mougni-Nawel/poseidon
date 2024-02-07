@@ -2,8 +2,6 @@ package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.services.CurvePointService;
-import com.nnk.springboot.services.ICurvePointService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,7 +20,7 @@ import java.util.List;
 @Controller
 public class CurveController {
     @Autowired
-    private ICurvePointService curvePointService;
+    private CurvePointService curvePointService;
 
     @RequestMapping("/curvePoint/list")
     public String home(Model model, @AuthenticationPrincipal UserDetails userDetails)

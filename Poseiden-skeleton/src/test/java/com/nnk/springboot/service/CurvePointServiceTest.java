@@ -1,12 +1,8 @@
 package com.nnk.springboot.service;
 
-import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.domain.CurvePoint;
-import com.nnk.springboot.repositories.BidListRepository;
 import com.nnk.springboot.repositories.CurvePointRepository;
-import com.nnk.springboot.services.BidListService;
 import com.nnk.springboot.services.CurvePointService;
-import com.nnk.springboot.services.ICurvePointService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +20,6 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
@@ -52,7 +47,7 @@ public class CurvePointServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "user1", authorities = {"USER"})
+    @WithMockUser
     public void testFindAll(){
 
         List<CurvePoint> curvePointList = Arrays.asList(curvePoint1,curvePoint2);
@@ -66,7 +61,7 @@ public class CurvePointServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "user1", authorities = {"USER"})
+    @WithMockUser
     public void testSave() {
 
         when(curvePointRepository.save(curvePoint1)).thenReturn(curvePoint1);
@@ -79,10 +74,9 @@ public class CurvePointServiceTest {
 
 
     @Test
-    @WithMockUser(username = "user1", authorities = {"USER"})
+    @WithMockUser
     public void testFindOne(){
 
-        //List<CurvePoint> curvePointList = Arrays.asList(curvePoint1,curvePoint2);
         CurvePoint curvePoint3 = new CurvePoint(3, 4.2, 200.0);
         curvePoint3.setId(3);
 
@@ -96,7 +90,7 @@ public class CurvePointServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "user1", authorities = {"USER"})
+    @WithMockUser
     public void testUpdate() {
 
         CurvePoint existingCurvePoint = new CurvePoint(4, 2.2, 200.0);
@@ -113,7 +107,7 @@ public class CurvePointServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "user1", authorities = {"USER"})
+    @WithMockUser
     public void testDelete() {
 
         CurvePoint curvePoint3 = new CurvePoint(3, 4.2, 200.0);

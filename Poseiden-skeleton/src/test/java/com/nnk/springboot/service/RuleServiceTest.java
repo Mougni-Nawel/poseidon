@@ -58,7 +58,7 @@ public class RuleServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "user1", authorities = {"USER"})
+    @WithMockUser
     public void testFindAll(){
 
         List<RuleName> ruleNameList = Arrays.asList(ruleName1,ruleName2);
@@ -72,7 +72,7 @@ public class RuleServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "user1", authorities = {"USER"})
+    @WithMockUser
     public void testSave() {
 
         when(ruleNameRepository.save(ruleName1)).thenReturn(ruleName1);
@@ -84,7 +84,7 @@ public class RuleServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "user1", authorities = {"USER"})
+    @WithMockUser
     public void testFindOne(){
 
 
@@ -100,7 +100,7 @@ public class RuleServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "user1", authorities = {"USER"})
+    @WithMockUser
     public void testUpdate() {
 
         RuleName existingRuleName = new RuleName();
@@ -119,7 +119,7 @@ public class RuleServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "user1", authorities = {"USER"})
+    @WithMockUser
     public void testDelete() {
 
 

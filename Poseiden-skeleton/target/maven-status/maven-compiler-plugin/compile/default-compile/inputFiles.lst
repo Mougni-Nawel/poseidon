@@ -1,9 +1,7 @@
 C:\final\Mougni\Documents\BAC+3 JAVA\projets\P7\poseidon\Poseiden-skeleton\src\main\java\com\nnk\springboot\domain\Rating.java
 C:\final\Mougni\Documents\BAC+3 JAVA\projets\P7\poseidon\Poseiden-skeleton\src\main\java\com\nnk\springboot\repositories\CurvePointRepository.java
-C:\final\Mougni\Documents\BAC+3 JAVA\projets\P7\poseidon\Poseiden-skeleton\src\main\java\com\nnk\springboot\config\AccessHandler.java
 C:\final\Mougni\Documents\BAC+3 JAVA\projets\P7\poseidon\Poseiden-skeleton\src\main\java\com\nnk\springboot\controllers\BidListController.java
 C:\final\Mougni\Documents\BAC+3 JAVA\projets\P7\poseidon\Poseiden-skeleton\src\main\java\com\nnk\springboot\repositories\UserRepository.java
-C:\final\Mougni\Documents\BAC+3 JAVA\projets\P7\poseidon\Poseiden-skeleton\src\main\java\com\nnk\springboot\services\ICurvePointService.java
 C:\final\Mougni\Documents\BAC+3 JAVA\projets\P7\poseidon\Poseiden-skeleton\src\main\java\com\nnk\springboot\domain\User.java
 C:\final\Mougni\Documents\BAC+3 JAVA\projets\P7\poseidon\Poseiden-skeleton\src\main\java\com\nnk\springboot\services\RuleNameService.java
 C:\final\Mougni\Documents\BAC+3 JAVA\projets\P7\poseidon\Poseiden-skeleton\src\main\java\com\nnk\springboot\domain\Trade.java
@@ -17,7 +15,6 @@ C:\final\Mougni\Documents\BAC+3 JAVA\projets\P7\poseidon\Poseiden-skeleton\src\m
 C:\final\Mougni\Documents\BAC+3 JAVA\projets\P7\poseidon\Poseiden-skeleton\src\main\java\com\nnk\springboot\controllers\LoginController.java
 C:\final\Mougni\Documents\BAC+3 JAVA\projets\P7\poseidon\Poseiden-skeleton\src\main\java\com\nnk\springboot\repositories\RatingRepository.java
 C:\final\Mougni\Documents\BAC+3 JAVA\projets\P7\poseidon\Poseiden-skeleton\src\main\java\com\nnk\springboot\repositories\RuleNameRepository.java
-C:\final\Mougni\Documents\BAC+3 JAVA\projets\P7\poseidon\Poseiden-skeleton\src\main\java\com\nnk\springboot\config\Config.java
 C:\final\Mougni\Documents\BAC+3 JAVA\projets\P7\poseidon\Poseiden-skeleton\src\main\java\com\nnk\springboot\controllers\HomeController.java
 C:\final\Mougni\Documents\BAC+3 JAVA\projets\P7\poseidon\Poseiden-skeleton\src\main\java\com\nnk\springboot\services\UserService.java
 C:\final\Mougni\Documents\BAC+3 JAVA\projets\P7\poseidon\Poseiden-skeleton\src\main\java\com\nnk\springboot\repositories\BidListRepository.java

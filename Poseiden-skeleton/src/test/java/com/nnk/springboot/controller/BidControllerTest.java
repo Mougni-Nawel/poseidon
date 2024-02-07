@@ -3,24 +3,16 @@ package com.nnk.springboot.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nnk.springboot.controllers.BidListController;
 import com.nnk.springboot.domain.BidList;
-import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.services.BidListService;
-import com.nnk.springboot.services.ICurvePointService;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.ui.Model;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.ArrayList;
@@ -41,8 +33,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 @AutoConfigureMockMvc
 @EnableWebMvc
 @SpringBootTest(classes = BidListController.class)
-@Slf4j
-@WithMockUser
 public class BidControllerTest {
 
     @Autowired
@@ -52,13 +42,9 @@ public class BidControllerTest {
     @MockBean
     private BidListService bidListService;
 
-    @MockBean
-    private ICurvePointService curvePointService;
 
     private List<BidList> mockBidList;
 
-    @Mock
-    private Model model;
 
     @BeforeEach
     void setUp(){
@@ -72,11 +58,8 @@ public class BidControllerTest {
     @WithMockUser
     public void getBidList() throws Exception {
 
-
-        // Mock the service method to return the mock data
         when(bidListService.findAll()).thenReturn(mockBidList);
 
-        // Perform the MVC request and assert the results
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/bidList/list").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -92,7 +75,7 @@ public class BidControllerTest {
     public void validateBidList() throws Exception {
 
         BidList bidList = new BidList("Account1", "Type1", 100.0);
-        //mockBidList.add(bidList);
+
         when(bidListService.save(any(BidList.class))).thenReturn(bidList);
 
         mockMvc.perform(post("/bidList/validate").with(csrf())
@@ -111,7 +94,7 @@ public class BidControllerTest {
         bidListExisted.setType("Test");
 
         BidList updatedBidList = new BidList();
-        updatedBidList.setType("New Test"); // Set any updated fields
+        updatedBidList.setType("New Test");
 
         when(bidListService.save(any(BidList.class))).thenReturn(updatedBidList);
 
@@ -128,11 +111,9 @@ public class BidControllerTest {
     void testDeleteBid() throws Exception {
         doNothing().when(bidListService).delete(anyInt());
 
-        // Act & Assert
         mockMvc.perform(get("/bidList/delete/1"))
                 .andExpect(redirectedUrl("/bidList/list"));
 
-        // Verify that the delete method is called with the correct id
         verify(bidListService, times(1)).delete(anyInt());
     }
 

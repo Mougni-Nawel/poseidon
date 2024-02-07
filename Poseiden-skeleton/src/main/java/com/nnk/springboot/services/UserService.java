@@ -41,12 +41,6 @@ public class UserService implements UserDetailsService {
     @Transactional
     public User save(User user){
 
-        //if(bid.getId() != 0){
-
         return userRepository.save(user);
-
-        //}
-        // todo : add exception
-        // return null;
     }
 }

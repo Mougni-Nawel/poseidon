@@ -2,7 +2,6 @@ package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.services.BidListService;
-import com.nnk.springboot.services.ICurvePointService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Controller
@@ -24,8 +22,6 @@ public class BidListController {
     @Autowired
     private BidListService bidListService;
 
-    @Autowired
-    private ICurvePointService curvePointService;
 
     @RequestMapping("/bidList/list")
     public String home(Model model, @AuthenticationPrincipal UserDetails userDetails)

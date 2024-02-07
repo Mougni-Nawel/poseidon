@@ -26,8 +26,6 @@ public class BidListService {
 
         return bidListRepository.save(bid);
 
-        // todo : add exception
-       // return null;
     }
 
     public BidList findOne(int id){
@@ -38,7 +36,6 @@ public class BidListService {
             return bidList.get();
         }
 
-        // todo: add exception
         return null;
     }
 
@@ -67,7 +64,6 @@ public class BidListService {
 
         bidListRepository.delete(deletedBidList);
 
-        // todo: see exceptions
     }
 
 

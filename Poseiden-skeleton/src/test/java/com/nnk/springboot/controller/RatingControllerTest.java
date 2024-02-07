@@ -1,18 +1,11 @@
 package com.nnk.springboot.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nnk.springboot.controllers.BidListController;
 import com.nnk.springboot.controllers.RatingController;
-import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.domain.Rating;
-import com.nnk.springboot.domain.Trade;
-import com.nnk.springboot.services.BidListService;
-import com.nnk.springboot.services.ICurvePointService;
 import com.nnk.springboot.services.RatingService;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.ui.Model;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.ArrayList;
@@ -41,8 +33,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @EnableWebMvc
 @SpringBootTest(classes = RatingController.class)
-@Slf4j
-@WithMockUser
 public class RatingControllerTest {
 
     @Autowired
@@ -54,8 +44,6 @@ public class RatingControllerTest {
 
     private List<Rating> ratingList;
 
-    @Mock
-    private Model model;
 
     @BeforeEach
     void setUp(){
@@ -70,12 +58,8 @@ public class RatingControllerTest {
     @WithMockUser
     public void getRatingList() throws Exception {
 
-
-        // Mock the service method to return the mock data
         when(ratingService.findAll()).thenReturn(ratingList);
 
-
-        // Perform the MVC request and assert the results
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/rating/list").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -91,7 +75,6 @@ public class RatingControllerTest {
     public void validateRating() throws Exception {
 
         Rating rating = new Rating();
-        //mockBidList.add(bidList);
         when(ratingService.save(any(Rating.class))).thenReturn(rating);
 
         mockMvc.perform(post("/rating/validate").with(csrf())
@@ -115,7 +98,7 @@ public class RatingControllerTest {
         ratingExisted.setSandPRating("Test");
 
         Rating updatedRating = new Rating();
-        updatedRating.setSandPRating("New Test"); // Set any updated fields
+        updatedRating.setSandPRating("New Test");
 
         when(ratingService.save(any(Rating.class))).thenReturn(updatedRating);
 
@@ -132,11 +115,9 @@ public class RatingControllerTest {
     void testDeleteRating() throws Exception {
         doNothing().when(ratingService).delete(anyInt());
 
-        // Act & Assert
         mockMvc.perform(get("/rating/delete/1"))
                 .andExpect(redirectedUrl("/rating/list"));
 
-        // Verify that the delete method is called with the correct id
         verify(ratingService, times(1)).delete(anyInt());
     }
 

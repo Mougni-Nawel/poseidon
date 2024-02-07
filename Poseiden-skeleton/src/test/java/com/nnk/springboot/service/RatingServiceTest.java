@@ -58,7 +58,7 @@ public class RatingServiceTest {
 
 
     @Test
-    @WithMockUser(username = "user1", authorities = {"USER"})
+    @WithMockUser
     public void testFindAll(){
 
         List<Rating> ratingList = Arrays.asList(rating1,rating2);
@@ -73,7 +73,7 @@ public class RatingServiceTest {
 
 
     @Test
-    @WithMockUser(username = "user1", authorities = {"USER"})
+    @WithMockUser
     public void testSave() {
 
         when(ratingRepository.save(rating1)).thenReturn(rating1);
@@ -86,7 +86,7 @@ public class RatingServiceTest {
 
 
     @Test
-    @WithMockUser(username = "user1", authorities = {"USER"})
+    @WithMockUser
     public void testFindOne(){
 
 
@@ -102,7 +102,7 @@ public class RatingServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "user1", authorities = {"USER"})
+    @WithMockUser
     public void testUpdate() {
 
         Rating existingRating = new Rating();
@@ -121,7 +121,7 @@ public class RatingServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "user1", authorities = {"USER"})
+    @WithMockUser
     public void testDelete() {
 
 

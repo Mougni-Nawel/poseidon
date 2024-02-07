@@ -22,14 +22,7 @@ public class TradeService {
 
     public Trade save(Trade trade){
 
-        //if(trade.getTradeId() != 0){
-
-            return tradeRepository.save(trade);
-
-        //}
-
-        //return null;
-
+        return tradeRepository.save(trade);
     }
 
     public Trade findOne(int id){
