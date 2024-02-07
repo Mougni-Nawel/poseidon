@@ -13,10 +13,23 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
+/**
+ *
+ * Class of configuration of the security of the app
+ * @author Mougni
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+    /**
+     * This method configures the http filters, authentication and authorization.
+     * It defines the filters of the different http requests,
+     * the authentication and the authorization.
+     * @param http is used to configure the security filters
+     * @return the filter chain configured
+     * @throws Exception if an error is thrown
+     */
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -27,31 +40,11 @@ public class SecurityConfig {
                         .requestMatchers("/user/**").hasAuthority("ADMIN")
                         .requestMatchers("/error").permitAll()
                         .anyRequest().authenticated())
-//                .formLogin(form -> {
-//                            try {
-//                                form
-//                                        .loginPage("/app/login")
-//                                        .usernameParameter("username")
-//                                        .passwordParameter("password")
-//                                        .defaultSuccessUrl("/home", true)
-//                                        .failureUrl("/app/login?error")
-//                                        .failureHandler(new SimpleUrlAuthenticationFailureHandler("/app/login?error")
-//                                        )
-//                                        .loginPage("/app/login");
-//                            } catch (Exception e) {
-//                                throw new RuntimeException(e);
-//                            }
-//                        })
-                //.formLogin(Customizer.withDefaults())
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/bidList/list")
                         .failureUrl("/login?error")
                         .failureHandler(new SimpleUrlAuthenticationFailureHandler("/login?error")))
-
-
-
-
                 .logout((logout) ->
                         logout.logoutUrl("/app-logout")
                                 .deleteCookies("remove")
@@ -69,6 +62,10 @@ public class SecurityConfig {
     }
 
 
+    /**
+     * This authentication provider configure the authentication with the user details service and the encoding password.
+     * @return an instance of DaoAuthentication configured
+     */
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -78,11 +75,20 @@ public class SecurityConfig {
         return authProvider;
     }
 
+    /**
+     * This method create an instance of user service details
+     * @return an instance of user service details
+     */
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserService();
     }
 
+    /**
+     * This method create an instance of Bcrypt password encoder
+     * It used for the encryption of the password
+     * @return and instance of Bcrypt password encoder
+     */
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
